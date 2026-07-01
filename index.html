@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Focus Tasks</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+<header>
+<h1>Focus Tasks</h1>
+<div class="header-buttons">
+<button id="addTaskBtn">
+إضافة مهمة
+</button>
+<button id="darkModeBtn">
+الوضع الليلي
+</button>
+</div>
+</header>
+<section class="card date-card">
+<h2 id="today">
+اليوم
+</h2>
+<p id="clock">
+00:00:00
+</p>
+</section>
+<section class="card stats-card">
+<h2>
+الإحصائيات
+</h2>
+<div class="stats">
+<div class="stat">
+<h3 id="totalTasks">
+0
+</h3>
+<p>
+كل المهام
+</p>
+</div>
+<div class="stat">
+<h3 id="completedTasks">
+0
+</h3>
+<p>
+المكتملة
+</p>
+</div>
+<div class="stat">
+<h3 id="progressText">
+0%
+</h3>
+<p>
+نسبة الإنجاز
+</p>
+</div>
+</div>
+<div class="progress">
+<div id="progressBar"></div>
+</div>
+</section>
+<!-- المؤقت -->
+
+<section class="card timer-card">
+<h2>
+المؤقت
+</h2>
+<div class="timer-settings">
+<input
+type="number"
+id="minutesInput"
+value="30"
+min="1"
+max="180">
+<span>
+دقيقة
+</span>
+</div>
+<div id="timerDisplay">
+30:00
+</div>
+<div class="timer-buttons">
+<button id="startTimer">
+بدء
+</button>
+<button id="pauseTimer">
+إيقاف
+</button>
+<button id="resetTimer">
+إعادة
+</button>
+</div>
+</section>
+<!-- المهام الحالية -->
+<section class="card">
+<h2>
+المهام الحالية
+</h2>
+<ul id="taskList">
+</ul>
+</section>
+<!-- المهام المكتملة -->
+<section class="card">
+<h2>
+المهام المكتملة
+</h2>
+<ul id="completedList">
+</ul>
+</section>
+</div>
+<!-- نافذة إضافة مهمة -->
+<div class="modal" id="taskModal">
+<div class="modal-content">
+<h2>
+إضافة مهمة جديدة
+</h2>
+<input
+type="text"
+id="taskInput"
+placeholder="اكتب المهمة...">
+<div class="modal-buttons">
+<button id="saveTask">
+إضافة
+</button>
+<button id="closeModal">
+إلغاء
+</button>
+</div>
+</div>
+</div>
+<script src="script.js"></script>
+</body>
+</html>
