@@ -17,6 +17,19 @@ const progressBar = document.getElementById("progressBar");
 // البيانات
 // ==========================
 let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+//==========================
+// نظام اليوم الجديد
+//==========================
+const todayDate = new Date().toDateString();
+const lastOpen = localStorage.getItem("lastOpen");
+if(lastOpen !== todayDate){
+    tasks = tasks.filter(task => !task.completed);
+    tasks.forEach(task=>{
+        task.fromYesterday = true;
+    });
+    localStorage.setItem("lastOpen",todayDate);
+    localStorage.setItem("tasks",JSON.stringify(tasks));
+}
 // ==========================
 // حفظ البيانات
 // ==========================
@@ -67,8 +80,10 @@ function addTask(){
     const text = taskInput.value.trim();
     if(text === "") return;
     tasks.push({
-        text:text,
-        completed:false
+
+    text:text,
+    completed:false,
+    fromYesterday:false
     });
     saveData();
     renderTasks();
@@ -86,24 +101,26 @@ taskInput.addEventListener("keydown",(e)=>{
 // عرض المهام
 // ==========================
 function renderTasks(){
-    taskList.innerHTML="";
-    completedList.innerHTML="";
-    tasks.forEach((task,index)=>{
-        const li=document.createElement("li");
-        li.innerHTML=`
-        <input type="checkbox"
-        ${task.completed ? "checked":""}>
-        <span>${task.text}</span>
+    // تفريغ القوائم
+    taskList.innerHTML = "";
+    completedList.innerHTML = "";
+    // عرض كل مهمة
+    tasks.forEach((task, index) => {
+        const li = document.createElement("li");
+        li.innerHTML = `
+            <input type="checkbox" ${task.completed ? "checked" : ""}>
+            <span>${task.text}</span>
+            ${task.fromYesterday ? '<span class="badge">مهام أمس</span>' : ''}
         `;
-        const checkBox=li.querySelector("input");
-        checkBox.addEventListener("change",()=>{
-            tasks[index].completed=checkBox.checked;
+        const checkBox = li.querySelector("input");
+        checkBox.addEventListener("change", () => {
+            tasks[index].completed = checkBox.checked;
             saveData();
             renderTasks();
         });
-        if(task.completed){
+        if (task.completed) {
             completedList.appendChild(li);
-        }else{
+        } else {
             taskList.appendChild(li);
         }
     });
