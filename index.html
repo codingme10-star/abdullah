@@ -1,135 +1,236 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Focus Tasks</title>
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منظم المهام الذكي - ليلة النجوم</title>
+    
+    <!-- استدعاء خطوط جوجل -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Orbitron:wght@700;900&display=swap');
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            padding: 25px 15px;
+            font-family: 'Cairo', sans-serif;
+            background: #030b1e url('2052301f8dd32b0d48a802e0674441c4.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .main-title {
+            width: 100%; max-width: 950px; text-align: center; color: #ffe67b;
+            font-size: 2.2rem; font-weight: 900; margin-bottom: 20px;
+            background: rgba(3, 15, 38, 0.85); padding: 15px; border-radius: 20px;
+            border: 2px solid #ffb700; backdrop-filter: blur(8px);
+            box-shadow: 0 0 25px rgba(255, 183, 0, 0.4);
+        }
+
+        .widgets-container {
+            width: 100%; max-width: 950px; display: flex; gap: 20px;
+            justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap;
+        }
+
+        .widget-box {
+            flex: 1; min-width: 280px; background: rgba(4, 20, 48, 0.88);
+            border: 2px solid #ffaa00; border-radius: 20px; padding: 18px;
+            text-align: center; backdrop-filter: blur(8px);
+        }
+
+        .widget-title { margin: 0 0 12px 0; color: #ffe67b; font-size: 1.15rem; font-weight: 700; }
+
+        .digital-number {
+            font-family: 'Orbitron', sans-serif; font-size: 2.1rem; font-weight: 900;
+            color: #ffe67b; text-shadow: 0 0 12px #ffaa00; direction: ltr; margin: 10px 0;
+        }
+
+        .btn-small {
+            background: linear-gradient(45deg, #ff9900, #ffe67b); color: #030b1e;
+            border: none; padding: 8px 14px; font-size: 0.9rem; font-weight: 900;
+            border-radius: 8px; cursor: pointer; transition: all 0.2s ease;
+        }
+        .btn-small:hover { transform: scale(1.05); }
+        .btn-danger { background: linear-gradient(45deg, #ff3333, #ff6666); color: #fff; }
+
+        .file-section {
+            width: 100%; max-width: 950px; background: rgba(4, 20, 48, 0.88);
+            border: 2px solid #ffaa00; border-radius: 20px; padding: 20px; margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .file-preview {
+            width: 100%; max-height: 500px; margin-top: 15px; border-radius: 12px;
+            border: 1px dashed #ffaa00; display: flex; justify-content: center;
+            align-items: center; overflow: hidden; background: rgba(2, 9, 23, 0.6);
+            padding: 10px;
+        }
+
+        .file-preview img { max-width: 100%; max-height: 480px; border-radius: 8px; }
+        .file-preview iframe { width: 100%; height: 480px; border: none; }
+        .sync-status { font-size: 0.85rem; color: #00ffaa; margin-bottom: 15px; font-weight: bold; }
+        .sync-status.offline { color: #ffaa00; }
+
+    </style>
+
+    <!-- مكاتب Firebase السحابية -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-storage-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
 </head>
 <body>
-<div class="container">
-<header>
-<h1>Focus Tasks</h1>
-<div class="header-buttons">
-<button id="addTaskBtn">
-إضافة مهمة
-</button>
-<button id="darkModeBtn">
-الوضع الليلي
-</button>
-</div>
-</header>
-<section class="card date-card">
-<h2 id="today">
-اليوم
-</h2>
-<p id="clock">
-00:00:00
-</p>
-</section>
-<section class="card stats-card">
-<h2>
-الإحصائيات
-</h2>
-<div class="stats">
-<div class="stat">
-<h3 id="totalTasks">
-0
-</h3>
-<p>
-كل المهام
-</p>
-</div>
-<div class="stat">
-<h3 id="completedTasks">
-0
-</h3>
-<p>
-المكتملة
-</p>
-</div>
-<div class="stat">
-<h3 id="progressText">
-0%
-</h3>
-<p>
-نسبة الإنجاز
-</p>
-</div>
-</div>
-<div class="progress">
-<div id="progressBar"></div>
-</div>
-</section>
-<!-- المؤقت -->
 
-<section class="card timer-card">
-<h2>
-المؤقت
-</h2>
-<div class="timer-settings">
-<input
-type="number"
-id="minutesInput"
-value="30"
-min="1"
-max="180">
-<span>
-دقيقة
-</span>
-</div>
-<div id="timerDisplay">
-30:00
-</div>
-<div class="timer-buttons">
-<button id="startTimer">
-بدء
-</button>
-<button id="pauseTimer">
-إيقاف
-</button>
-<button id="resetTimer">
-إعادة
-</button>
-</div>
-</section>
-<!-- المهام الحالية -->
-<section class="card">
-<h2>
-المهام الحالية
-</h2>
-<ul id="taskList">
-</ul>
-</section>
-<!-- المهام المكتملة -->
-<section class="card">
-<h2>
-المهام المكتملة
-</h2>
-<ul id="completedList">
-</ul>
-</section>
-</div>
-<!-- نافذة إضافة مهمة -->
-<div class="modal" id="taskModal">
-<div class="modal-content">
-<h2>
-إضافة مهمة جديدة
-</h2>
-<input
-type="text"
-id="taskInput"
-placeholder="اكتب المهمة...">
-<div class="modal-buttons">
-<button id="saveTask">
-إضافة
-</button>
-<button id="closeModal">
-إلغاء
-</button>
-</div>
-</div>
-</div>
-<script src="script.js"></script>
+    <h1 class="main-title">🌌 منظم المهام الذكي - ليلة النجوم 🌌</h1>
+
+    <!-- قسم الساعة -->
+    <div class="widgets-container">
+        <div class="widget-box">
+            <div class="widget-title">🕒 الساعة الآن</div>
+            <div class="digital-number" id="clockDisplay">00:00:00</div>
+        </div>
+    </div>
+
+    <!-- قسم رفع ومزامنة الملفات -->
+    <div class="file-section">
+        <div class="widget-title">📑 صندوق المزامنة (PDF / صور)</div>
+        <div id="syncStatus" class="sync-status offline">الوضع الحالي: تخزين محلي (لن يظهر على أجهزة أخرى بدون تفعيل Firebase)</div>
+        
+        <input type="file" id="fileInput" accept="image/*,.pdf" style="display: none;" onchange="handleFileUpload(event)">
+        <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+            <button class="btn-small" onclick="document.getElementById('fileInput').click()">📤 رفع ملف للمزامنة</button>
+            <button class="btn-small btn-danger" onclick="deleteFile()">🗑️ حذف الملف</button>
+        </div>
+
+        <div class="file-preview" id="filePreviewContainer">
+            <span style="color: #aaa; font-size: 0.9rem;">لا يوجد ملف أو صورة محددة حتى الآن</span>
+        </div>
+    </div>
+
+    <script>
+        // ==================== 1. الساعة (مع تأخيرها ساعة كما طلبت) ====================
+        function updateClock() {
+            const now = new Date();
+            // طرح 1 ساعة (60 دقيقة) لضبط التوقيت حسب طلبك
+            now.setHours(now.getHours() - 1); 
+
+            let hours = now.getHours();
+            let minutes = now.getMinutes();
+            let seconds = now.getSeconds();
+            let ampm = hours >= 12 ? 'PM' : 'AM';
+            
+            hours = hours % 12;
+            hours = hours ? hours : 12;
+            hours = hours < 10 ? '0' + hours : hours;
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            seconds = seconds < 10 ? '0' + seconds : seconds;
+
+            document.getElementById('clockDisplay').innerText = `${hours}:${minutes}:${seconds} ${ampm}`;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // ==================== 2. نظام المزامنة السحابية (Firebase) ====================
+        /* 
+           لجعل الملفات تظهر على التابلت، يجب وضع بيانات مشروعك في Firebase هنا.
+           إذا تركتها كما هي، سيعمل الموقع بنظام "التخزين المحلي" على نفس الجهاز فقط.
+        */
+        const firebaseConfig = {
+            apiKey: "ضع_المفتاح_هنا",
+            authDomain: "ضع_الدومين_هنا",
+            databaseURL: "ضع_رابط_قاعدة_البيانات_هنا",
+            projectId: "ضع_المعرف_هنا",
+            storageBucket: "ضع_رابط_التخزين_هنا",
+            messagingSenderId: "ضع_رقم_المرسل_هنا",
+            appId: "ضع_الـAppID_هنا"
+        };
+
+        let isCloudEnabled = firebaseConfig.apiKey !== "ضع_المفتاح_هنا";
+        let dbRef, storageRef;
+
+        if (isCloudEnabled) {
+            firebase.initializeApp(firebaseConfig);
+            const db = firebase.database();
+            const storage = firebase.storage();
+            dbRef = db.ref('shared_file');
+            storageRef = storage.ref('uploads/study_file');
+
+            document.getElementById('syncStatus').innerText = "🟢 الوضع الحالي: متصل بالسحابة (الملفات ستظهر على التابلت فوراً)";
+            document.getElementById('syncStatus').className = "sync-status";
+
+            // الاستماع السحابي لأي ملف جديد يترفع من أي جهاز
+            dbRef.on('value', (snapshot) => {
+                const data = snapshot.val();
+                if (data && data.url) {
+                    displayFile(data.url, data.type, data.name);
+                } else {
+                    document.getElementById('filePreviewContainer').innerHTML = '<span style="color: #aaa;">لا يوجد ملف محفوظ</span>';
+                }
+            });
+        }
+
+        // ==================== 3. رفع وعرض الملفات ====================
+        function handleFileUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            document.getElementById('filePreviewContainer').innerHTML = '<span style="color: #ffe67b;">جاري الرفع... ⏳</span>';
+
+            if (isCloudEnabled) {
+                // رفع سحابي (يسمع في التابلت)
+                storageRef.put(file).then(snapshot => {
+                    return snapshot.ref.getDownloadURL();
+                }).then(url => {
+                    dbRef.set({ name: file.name, type: file.type, url: url });
+                });
+            } else {
+                // رفع محلي (على نفس الجهاز) إذا لم يتم ربط Firebase
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    localStorage.setItem('local_study_file', JSON.stringify({
+                        name: file.name, type: file.type, url: e.target.result
+                    }));
+                    displayFile(e.target.result, file.type, file.name);
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function displayFile(url, type, name) {
+            const container = document.getElementById('filePreviewContainer');
+            container.innerHTML = '';
+
+            if (type.startsWith('image/')) {
+                container.innerHTML = `<img src="${url}" alt="${name}">`;
+            } else if (type === 'application/pdf') {
+                container.innerHTML = `<iframe src="${url}"></iframe>`;
+            } else {
+                container.innerHTML = `<span style="color:#ffe67b">تم حفظ: ${name}</span>`;
+            }
+        }
+
+        function deleteFile() {
+            if (isCloudEnabled) {
+                dbRef.remove();
+                storageRef.delete().catch(() => {});
+            } else {
+                localStorage.removeItem('local_study_file');
+                document.getElementById('filePreviewContainer').innerHTML = '<span style="color: #aaa;">لا يوجد ملف محفوظ</span>';
+            }
+        }
+
+        // استرجاع الملف المحلي عند فتح الصفحة (لو مفيش سحابة)
+        if (!isCloudEnabled) {
+            const savedData = localStorage.getItem('local_study_file');
+            if (savedData) {
+                const data = JSON.parse(savedData);
+                displayFile(data.url, data.type, data.name);
+            }
+        }
+    </script>
 </body>
 </html>
