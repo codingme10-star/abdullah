@@ -4,12 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>منظم المهام الذكي - ليلة النجوم</title>
-    
-    <!-- استدعاء خطوط جوجل -->
+    <!-- استدعاء الخطوط المزخرفة والحديثة -->
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Orbitron:wght@700;900&display=swap');
 
-        * { box-sizing: border-box; }
+        * {
+            box-sizing: border-box;
+        }
 
         body {
             margin: 0;
@@ -24,107 +25,438 @@
             min-height: 100vh;
         }
 
+        /* عنوان الصفحة الرئيسي */
         .main-title {
-            width: 100%; max-width: 950px; text-align: center; color: #ffe67b;
-            font-size: 2.2rem; font-weight: 900; margin-bottom: 20px;
-            background: rgba(3, 15, 38, 0.85); padding: 15px; border-radius: 20px;
-            border: 2px solid #ffb700; backdrop-filter: blur(8px);
+            width: 100%;
+            max-width: 950px;
+            text-align: center;
+            color: #ffe67b;
+            font-size: 2.2rem;
+            font-weight: 900;
+            margin-bottom: 20px;
+            background: rgba(3, 15, 38, 0.85);
+            padding: 15px;
+            border-radius: 20px;
+            border: 2px solid #ffb700;
+            backdrop-filter: blur(8px);
             box-shadow: 0 0 25px rgba(255, 183, 0, 0.4);
+            animation: starryGlow 3s infinite alternate ease-in-out;
         }
 
-        .widgets-container {
-            width: 100%; max-width: 950px; display: flex; gap: 20px;
-            justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap;
+        @keyframes starryGlow {
+            0% { text-shadow: 0 0 10px #ffe67b, 0 0 20px #ff9900; border-color: #ffb700; }
+            100% { text-shadow: 0 0 25px #ffe67b, 0 0 40px #ffcc00; border-color: #ffe67b; }
+        }
+
+        /* حاوية الأودجيتس (أفقية بجانب بعض) */
+        .widgets-row {
+            width: 100%;
+            max-width: 950px;
+            display: flex;
+            gap: 20px;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
         }
 
         .widget-box {
-            flex: 1; min-width: 280px; background: rgba(4, 20, 48, 0.88);
-            border: 2px solid #ffaa00; border-radius: 20px; padding: 18px;
-            text-align: center; backdrop-filter: blur(8px);
+            flex: 1;
+            min-width: 280px;
+            background: rgba(4, 20, 48, 0.88);
+            border: 2px solid #ffaa00;
+            border-radius: 20px;
+            padding: 18px;
+            text-align: center;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.6), inset 0 0 10px rgba(255, 170, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
 
-        .widget-title { margin: 0 0 12px 0; color: #ffe67b; font-size: 1.15rem; font-weight: 700; }
+        .widget-title {
+            margin: 0 0 10px 0;
+            color: #ffe67b;
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
 
+        /* الأرقام المزخرفة المضيئة بالساعة والتايمر */
         .digital-number {
-            font-family: 'Orbitron', sans-serif; font-size: 2.1rem; font-weight: 900;
-            color: #ffe67b; text-shadow: 0 0 12px #ffaa00; direction: ltr; margin: 10px 0;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            font-weight: 900;
+            color: #ffe67b;
+            text-shadow: 0 0 12px #ffaa00, 0 0 25px #ff5500;
+            letter-spacing: 2px;
+            direction: ltr;
+            margin: 8px 0;
+        }
+
+        /* أدوات التايمر */
+        .timer-controls {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            align-items: center;
+            margin-top: 5px;
+            flex-wrap: wrap;
+        }
+
+        .timer-controls input {
+            width: 75px;
+            padding: 6px;
+            background: rgba(2, 9, 23, 0.9);
+            border: 1px solid #ffaa00;
+            border-radius: 8px;
+            color: #ffe67b;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.95rem;
+            text-align: center;
+            outline: none;
         }
 
         .btn-small {
-            background: linear-gradient(45deg, #ff9900, #ffe67b); color: #030b1e;
-            border: none; padding: 8px 14px; font-size: 0.9rem; font-weight: 900;
-            border-radius: 8px; cursor: pointer; transition: all 0.2s ease;
-        }
-        .btn-small:hover { transform: scale(1.05); }
-        .btn-danger { background: linear-gradient(45deg, #ff3333, #ff6666); color: #fff; }
-
-        .file-section {
-            width: 100%; max-width: 950px; background: rgba(4, 20, 48, 0.88);
-            border: 2px solid #ffaa00; border-radius: 20px; padding: 20px; margin-bottom: 20px;
-            text-align: center;
+            background: linear-gradient(45deg, #ff9900, #ffe67b);
+            color: #030b1e;
+            border: none;
+            padding: 7px 12px;
+            font-size: 0.85rem;
+            font-weight: 900;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
         }
 
-        .file-preview {
-            width: 100%; max-height: 500px; margin-top: 15px; border-radius: 12px;
-            border: 1px dashed #ffaa00; display: flex; justify-content: center;
-            align-items: center; overflow: hidden; background: rgba(2, 9, 23, 0.6);
-            padding: 10px;
+        .btn-small:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 12px rgba(255, 230, 123, 0.8);
         }
 
-        .file-preview img { max-width: 100%; max-height: 480px; border-radius: 8px; }
-        .file-preview iframe { width: 100%; height: 480px; border: none; }
-        .sync-status { font-size: 0.85rem; color: #00ffaa; margin-bottom: 15px; font-weight: bold; }
-        .sync-status.offline { color: #ffaa00; }
+        .btn-danger {
+            background: linear-gradient(45deg, #ff3333, #ff6666);
+            color: #fff;
+        }
 
+        /* عناصر الترجمة */
+        .trans-input {
+            width: 100%;
+            height: 60px;
+            background: rgba(2, 9, 23, 0.8);
+            border: 1px solid #ffaa00;
+            border-radius: 10px;
+            color: #fff;
+            padding: 8px;
+            font-family: 'Cairo', sans-serif;
+            font-size: 0.9rem;
+            resize: none;
+            outline: none;
+            margin-bottom: 8px;
+        }
+
+        .trans-result-box {
+            width: 100%;
+            min-height: 45px;
+            background: rgba(2, 9, 23, 0.95);
+            border: 1px dashed #ffe67b;
+            border-radius: 10px;
+            color: #ffe67b;
+            padding: 8px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-top: 8px;
+            word-break: break-word;
+            text-align: right;
+            position: relative;
+        }
+
+        /* قسم رفع الملفات والصور */
+        .file-upload-label {
+            background: linear-gradient(45deg, #ff9900, #ffe67b);
+            color: #030b1e;
+            padding: 8px 16px;
+            border-radius: 10px;
+            font-weight: 900;
+            cursor: pointer;
+            display: inline-block;
+            margin-bottom: 10px;
+            transition: all 0.2s ease;
+        }
+
+        .file-upload-label:hover {
+            transform: scale(1.04);
+            box-shadow: 0 0 15px rgba(255, 230, 123, 0.8);
+        }
+
+        .file-preview-area {
+            width: 100%;
+            margin-top: 5px;
+        }
+
+        /* حاوية إدخال المهام */
+        .input-section {
+            width: 100%;
+            max-width: 950px;
+            background: rgba(4, 20, 48, 0.88);
+            border: 2px solid #ffaa00;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(6px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+        }
+
+        .input-section h2 {
+            margin-top: 0;
+            color: #ffe67b;
+            font-size: 1.2rem;
+        }
+
+        textarea.tasks-textarea {
+            width: 100%;
+            height: 130px;
+            background: rgba(2, 9, 23, 0.8);
+            border: 1px solid #ffaa00;
+            border-radius: 12px;
+            color: #fff;
+            padding: 15px;
+            font-family: 'Cairo', sans-serif;
+            font-size: 0.95rem;
+            resize: vertical;
+            outline: none;
+        }
+
+        textarea.tasks-textarea:focus {
+            border-color: #ffe67b;
+            box-shadow: 0 0 10px rgba(255, 230, 123, 0.5);
+        }
+
+        .buttons-container {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn-action {
+            background: linear-gradient(45deg, #ff9900, #ffe67b);
+            color: #030b1e;
+            border: none;
+            padding: 12px 20px;
+            font-size: 1rem;
+            font-weight: 900;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(255, 170, 0, 0.4);
+            flex: 1;
+            min-width: 180px;
+        }
+
+        .btn-action:hover {
+            transform: scale(1.03);
+            box-shadow: 0 0 25px rgba(255, 230, 123, 0.8);
+        }
+
+        .btn-clear {
+            background: linear-gradient(45deg, #ff3333, #ff6666);
+            color: #fff;
+            box-shadow: 0 0 15px rgba(255, 51, 51, 0.4);
+        }
+
+        /* شبكة عرض الكروت */
+        .tasks-grid {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 25px;
+            justify-content: center;
+        }
+
+        /* تصميم كرت اليوم */
+        .task-card {
+            background: linear-gradient(135deg, rgba(4, 20, 48, 0.88), rgba(8, 30, 68, 0.82));
+            border: 2px solid #ffaa00;
+            border-radius: 24px;
+            padding: 22px;
+            width: 320px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5), 0 0 15px rgba(255, 170, 0, 0.25);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            backdrop-filter: blur(6px);
+        }
+
+        .task-card::before { content: '✨'; position: absolute; top: 10px; left: 12px; opacity: 0.8; }
+        .task-card::after { content: '🌙'; position: absolute; bottom: 10px; left: 12px; opacity: 0.6; }
+
+        .task-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7), 0 0 30px rgba(255, 204, 0, 0.6);
+            border-color: #ffe67b;
+        }
+
+        .task-card h3 {
+            color: #ffe67b;
+            border-bottom: 2px dashed rgba(255, 230, 123, 0.3);
+            padding-bottom: 12px;
+            margin-top: 0;
+            font-size: 1.2rem;
+            text-shadow: 0 0 8px rgba(255, 170, 0, 0.8);
+        }
+
+        .task-list {
+            list-style: none;
+            padding: 0;
+            margin: 10px 0 0 0;
+            line-height: 1.8;
+        }
+
+        .task-list li {
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #e2f1ff;
+            word-break: break-word;
+        }
+
+        /* غطاء الإنجاز والصح المضيء */
+        .checkmark-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(3, 15, 38, 0.93);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s ease;
+            z-index: 10;
+            border-radius: 22px;
+        }
+
+        .task-card.completed .checkmark-overlay {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .checkmark {
+            font-size: 100px;
+            color: #ffe67b;
+            text-shadow: 0 0 20px #ffaa00, 0 0 40px #ffaa00;
+            transform: scale(0) rotate(-45deg);
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .task-card.completed .checkmark {
+            transform: scale(1) rotate(0deg);
+        }
+
+        .completed-text {
+            color: #ffe67b;
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-top: -10px;
+            text-shadow: 0 0 10px #ffaa00;
+        }
+
+        .particle {
+            position: absolute;
+            pointer-events: none;
+            background: #ffe67b;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #ffaa00;
+            animation: particleAnimation 0.8s forwards ease-out;
+        }
+
+        @keyframes particleAnimation {
+            0% { opacity: 1; transform: translate(0, 0) scale(1); }
+            100% { opacity: 0; transform: translate(var(--x), var(--y)) scale(0); }
+        }
     </style>
-
-    <!-- مكاتب Firebase السحابية -->
-    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-storage-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
 </head>
 <body>
 
     <h1 class="main-title">🌌 منظم المهام الذكي - ليلة النجوم 🌌</h1>
 
-    <!-- قسم الساعة -->
-    <div class="widgets-container">
+    <!-- الصف الأول: الساعة والتايمر أفقياً -->
+    <div class="widgets-row">
+        <!-- مربع الساعة -->
         <div class="widget-box">
             <div class="widget-title">🕒 الساعة الآن</div>
             <div class="digital-number" id="clockDisplay">00:00:00</div>
         </div>
+
+        <!-- مربع المؤقت (التايمر) -->
+        <div class="widget-box">
+            <div class="widget-title">⏳ المؤقت (التايمر)</div>
+            <div class="digital-number" id="timerDisplay">00:00</div>
+            <div class="timer-controls">
+                <input type="number" id="timerMinutes" placeholder="دقائق" min="1" value="25">
+                <button class="btn-small" onclick="startTimer()">▶ ابدأ</button>
+                <button class="btn-small btn-danger" onclick="pauseTimer()">⏸ إيقاف</button>
+                <button class="btn-small" style="background:#aaa;" onclick="resetTimer()">🔄 إعادة</button>
+            </div>
+        </div>
     </div>
 
-    <!-- قسم رفع ومزامنة الملفات -->
-    <div class="file-section">
-        <div class="widget-title">📑 صندوق المزامنة (PDF / صور)</div>
-        <div id="syncStatus" class="sync-status offline">الوضع الحالي: تخزين محلي (لن يظهر على أجهزة أخرى بدون تفعيل Firebase)</div>
+    <!-- الصف الثاني: المترجم وحافظ الملفات/الصور أفقياً -->
+    <div class="widgets-row">
+        <!-- مربع المترجم -->
+        <div class="widget-box">
+            <div class="widget-title">🌐 المترجم الفوري</div>
+            <textarea id="transInput" class="trans-input" placeholder="اكتب النص للتثبيت والترجمة..."></textarea>
+            <div style="display:flex; gap:6px; width:100%; justify-content:center;">
+                <button class="btn-small" id="langToggleBtn" onclick="toggleLangDirection()">🔀 عربي ➔ إنجليزي</button>
+                <button class="btn-small" onclick="translateText()">✨ ترجم</button>
+            </div>
+            <div class="trans-result-box" id="transResult">الترجمة ستظهر هنا...</div>
+        </div>
+
+        <!-- مربع مكتبة الملفات والصور المحفوظة -->
+        <div class="widget-box">
+            <div class="widget-title">📌 الملف أو الصورة المرفقة</div>
+            <label class="file-upload-label">
+                📤 اختر ملف PDF أو صورة
+                <input type="file" id="fileInput" accept="image/*,.pdf" style="display:none;" onchange="handleFileUpload(this)">
+            </label>
+            <div class="file-preview-area" id="filePreviewArea">
+                <p style="color:#aaa; font-size:0.85rem; margin:5px 0;">لا يوجد ملف أو صورة محفوظة حالياً</p>
+            </div>
+            <button class="btn-small btn-danger" id="removeFileBtn" style="display:none; margin-top:8px;" onclick="removeSavedFile()">🗑️ حذف الملف المحفوظ</button>
+        </div>
+    </div>
+
+    <!-- قسم إدخال المهام -->
+    <div class="input-section">
+        <h2>أضف نص المهام الكامل هنا:</h2>
+        <textarea id="rawTaskText" class="tasks-textarea" placeholder="الصح واللصق للمهام بالكامل هنا..."></textarea>
         
-        <input type="file" id="fileInput" accept="image/*,.pdf" style="display: none;" onchange="handleFileUpload(event)">
-        <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
-            <button class="btn-small" onclick="document.getElementById('fileInput').click()">📤 رفع ملف للمزامنة</button>
-            <button class="btn-small btn-danger" onclick="deleteFile()">🗑️ حذف الملف</button>
-        </div>
-
-        <div class="file-preview" id="filePreviewContainer">
-            <span style="color: #aaa; font-size: 0.9rem;">لا يوجد ملف أو صورة محددة حتى الآن</span>
+        <div class="buttons-container">
+            <button class="btn-action" onclick="generateSchedule(true)">✨ حفظ وترتيب الجدول ✨</button>
+            <button class="btn-action btn-clear" onclick="clearAll()">🗑️ مسح الكل والبدء من جديد</button>
         </div>
     </div>
+
+    <!-- شبكة عرض المهام المرتبة -->
+    <div class="tasks-grid" id="tasksContainer"></div>
 
     <script>
-        // ==================== 1. الساعة (مع تأخيرها ساعة كما طلبت) ====================
+        // ==================== 1. الساعة الحية ====================
         function updateClock() {
             const now = new Date();
-            // طرح 1 ساعة (60 دقيقة) لضبط التوقيت حسب طلبك
-            now.setHours(now.getHours() - 1); 
-
             let hours = now.getHours();
             let minutes = now.getMinutes();
             let seconds = now.getSeconds();
+
             let ampm = hours >= 12 ? 'PM' : 'AM';
-            
             hours = hours % 12;
             hours = hours ? hours : 12;
+
             hours = hours < 10 ? '0' + hours : hours;
             minutes = minutes < 10 ? '0' + minutes : minutes;
             seconds = seconds < 10 ? '0' + seconds : seconds;
@@ -134,101 +466,924 @@
         setInterval(updateClock, 1000);
         updateClock();
 
-        // ==================== 2. نظام المزامنة السحابية (Firebase) ====================
-        /* 
-           لجعل الملفات تظهر على التابلت، يجب وضع بيانات مشروعك في Firebase هنا.
-           إذا تركتها كما هي، سيعمل الموقع بنظام "التخزين المحلي" على نفس الجهاز فقط.
-        */
-        const firebaseConfig = {
-            apiKey: "ضع_المفتاح_هنا",
-            authDomain: "ضع_الدومين_هنا",
-            databaseURL: "ضع_رابط_قاعدة_البيانات_هنا",
-            projectId: "ضع_المعرف_هنا",
-            storageBucket: "ضع_رابط_التخزين_هنا",
-            messagingSenderId: "ضع_رقم_المرسل_هنا",
-            appId: "ضع_الـAppID_هنا"
-        };
+        // ==================== 2. المؤقت والإنذار الصوتية ====================
+        let timerInterval = null;
+        let timerSecondsLeft = 0;
 
-        let isCloudEnabled = firebaseConfig.apiKey !== "ضع_المفتاح_هنا";
-        let dbRef, storageRef;
+        function startTimer() {
+            if (timerInterval) return;
 
-        if (isCloudEnabled) {
-            firebase.initializeApp(firebaseConfig);
-            const db = firebase.database();
-            const storage = firebase.storage();
-            dbRef = db.ref('shared_file');
-            storageRef = storage.ref('uploads/study_file');
-
-            document.getElementById('syncStatus').innerText = "🟢 الوضع الحالي: متصل بالسحابة (الملفات ستظهر على التابلت فوراً)";
-            document.getElementById('syncStatus').className = "sync-status";
-
-            // الاستماع السحابي لأي ملف جديد يترفع من أي جهاز
-            dbRef.on('value', (snapshot) => {
-                const data = snapshot.val();
-                if (data && data.url) {
-                    displayFile(data.url, data.type, data.name);
-                } else {
-                    document.getElementById('filePreviewContainer').innerHTML = '<span style="color: #aaa;">لا يوجد ملف محفوظ</span>';
+            if (timerSecondsLeft === 0) {
+                const mins = parseInt(document.getElementById('timerMinutes').value);
+                if (isNaN(mins) || mins <= 0) {
+                    alert('من فضلك أدخل عدد دقائق صحيح!');
+                    return;
                 }
-            });
+                timerSecondsLeft = mins * 60;
+            }
+
+            updateTimerDisplay();
+
+            timerInterval = setInterval(() => {
+                timerSecondsLeft--;
+                updateTimerDisplay();
+
+                if (timerSecondsLeft <= 0) {
+                    clearInterval(timerInterval);
+                    timerInterval = null;
+                    playAlarmSound();
+                    setTimeout(() => {
+                        alert('🔔 انتهى وقت المؤقت بنجاح! خذ استراحة الآن.');
+                    }, 200);
+                }
+            }, 1000);
         }
 
-        // ==================== 3. رفع وعرض الملفات ====================
+        function pauseTimer() {
+            clearInterval(timerInterval);
+            timerInterval = null;
+        }
+
+        function resetTimer() {
+            pauseTimer();
+            timerSecondsLeft = 0;
+            document.getElementById('timerDisplay').innerText = "00:00";
+        }
+
+        function updateTimerDisplay() {
+            let m = Math.floor(timerSecondsLeft / 60);
+            let s = timerSecondsLeft % 60;
+            m = m < 10 ? '0' + m : m;
+            s = s < 10 ? '0' + s : s;
+            document.getElementById('timerDisplay').innerText = `${m}:${s}`;
+        }
+
+        function playAlarmSound() {
+            try {
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const now = audioCtx.currentTime;
+                const freqs = [523.25, 659.25, 783.99, 1046.50];
+                
+                freqs.forEach((freq, idx) => {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.value = freq;
+                    gain.gain.setValueAtTime(0.3, now + idx * 0.15);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.15 + 0.4);
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start(now + idx * 0.15);
+                    osc.stop(now + idx * 0.15 + 0.4);
+                });
+            } catch(e) {}
+        }
+
+        // ==================== 3. قسم الترجمة الفورية ====================
+        let currentLangPair = 'ar|en';
+
+        function toggleLangDirection() {
+            const btn = document.getElementById('langToggleBtn');
+            const input = document.getElementById('transInput');
+            if (currentLangPair === 'ar|en') {
+                currentLangPair = 'en|ar';
+                btn.innerText = '🔀 إنجليزي ➔ عربي';
+                input.placeholder = 'Type English text here...';
+            } else {
+                currentLangPair = 'ar|en';
+                btn.innerText = '🔀 عربي ➔ إنجليزي';
+                input.placeholder = 'اكتب النص للتثبيت والترجمة...';
+            }
+        }
+
+        async function translateText() {
+            const text = document.getElementById('transInput').value.trim();
+            const resultBox = document.getElementById('transResult');
+
+            if (!text) {
+                alert('الرجاء إدخال نص أولاً لترجمته!');
+                return;
+            }
+
+            resultBox.innerText = 'جاري الترجمة... ⏳';
+
+            try {
+                const res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${currentLangPair}`);
+                const data = await res.json();
+                if (data.responseData && data.responseData.translatedText) {
+                    resultBox.innerText = data.responseData.translatedText;
+                } else {
+                    resultBox.innerText = 'تعذرت الترجمة حالياً، حاول مجدداً.';
+                }
+            } catch (err) {
+                resultBox.innerText = 'خطأ في الاتصال بالإنترنت للترجمة.';
+            }
+        }
+
+        // ==================== 4. قسم حفظ الملف والصورة (IndexedDB) ====================
+        const dbName = 'StarrySkyDB';
+        const storeName = 'attachedFiles';
+
+        function openDatabase() {
+            return new Promise((resolve, reject) => {
+                const req = indexedDB.open(dbName, 1);
+                req.onupgradeneeded = (e) => {
+                    const db = e.target.result;
+                    if (!db.objectStoreNames.contains(storeName)) {
+                        db.createObjectStore(storeName);
+                    }
+                };
+                req.onsuccess = (e) => resolve(e.target.result);
+                req.onerror = (e) => reject(e.target.errorبالتأكيد يا صديقي! لقد قمت بتحديث الموقع وإضافة الميزتين الجديدتين بتصميم متناسق تماماً مع طراز "ليلة النجوم" والمنارة:
+
+1. **🌐 قسم الترجمة الفورية (عربي ↔ إنجليزي):** 
+   - يمكنك كتابة أي نص واختيار اتجاه الترجمة (عربي إلى إنجليزي أو العكس)، والضغط على زر الترجمة ليقوم الموقع بجمعه وترجمته فوراً عبر خدمة ترجمة مباشرة.
+2. **📁 قسم حفظ الملفات والصور (PDF / Images):**
+   - يمكنك رفع أي صورة أو ملف PDF، وسيقوم الموقع بعرضه فوراً ومباشرة داخل الخانة مخصصاً لمعاينته وقراءته أثناء المذاكرة.
+   - تم استخدام تقنية قاعدة بيانات المتصفح `IndexedDB` لحفظ الملفات الكبيرة والكلية حتى لا تضيع عند إغلاق المتصفح أو الجهاز.
+
+---
+
+### ⚠️ ملاحظة هامة جداً بخصوص فتح الملف من "أي جهاز آخر":
+* **التخزين الحالي (IndexedDB):** يحفظ الملفات والصور **على جهازك الحالي بشكل دائم** (حتى بعد إغلاق المتصفح وإعادة تشغيله).
+* **لفتح نفس الملفات والمهام من أجهزة متعددة مختلفة (مثل الهاتف والكمبيوتر بنفس الوقت):** يتطلب ذلك ربط الموقع بقاعدة بيانات سحابية مجانية مثل (**Firebase** أو **Supabase**). إذا كنت تريد تفعيل المزامنة السحابية عبر الإنترنت بين كل أجهزتك، يسعدني جداً مساعدتك في إعداد حساب مجاني وربطه بالكود!
+
+---
+
+### 💻 الكود الشامل والكامل مع الميزات الجديدة:
+
+انسخ هذا الكود بالكامل واستبدله داخل ملف `index.html`:
+
+```html
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منظم المهام الذكي - ليلة النجوم</title>
+    <style>
+        @import url('[https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Orbitron:wght@700;900&display=swap](https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Orbitron:wght@700;900&display=swap)');
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 25px 15px;
+            font-family: 'Cairo', sans-serif;
+            background: #030b1e url('2052301f8dd32b0d48a802e0674441c4.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* عنوان الصفحة الرئيسي */
+        .main-title {
+            width: 100%;
+            max-width: 950px;
+            text-align: center;
+            color: #ffe67b;
+            font-size: 2.2rem;
+            font-weight: 900;
+            margin-bottom: 20px;
+            background: rgba(3, 15, 38, 0.85);
+            padding: 15px;
+            border-radius: 20px;
+            border: 2px solid #ffb700;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 0 25px rgba(255, 183, 0, 0.4);
+            animation: starryGlow 3s infinite alternate ease-in-out;
+        }
+
+        @keyframes starryGlow {
+            0% { text-shadow: 0 0 10px #ffe67b, 0 0 20px #ff9900; border-color: #ffb700; }
+            100% { text-shadow: 0 0 25px #ffe67b, 0 0 40px #ffcc00; border-color: #ffe67b; }
+        }
+
+        /* حاويات العرض الأفقية */
+        .widgets-container {
+            width: 100%;
+            max-width: 950px;
+            display: flex;
+            gap: 20px;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .widget-box {
+            flex: 1;
+            min-width: 280px;
+            background: rgba(4, 20, 48, 0.88);
+            border: 2px solid #ffaa00;
+            border-radius: 20px;
+            padding: 18px;
+            text-align: center;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.6), inset 0 0 10px rgba(255, 170, 0, 0.2);
+        }
+
+        .widget-title {
+            margin: 0 0 12px 0;
+            color: #ffe67b;
+            font-size: 1.15rem;
+            font-weight: 700;
+        }
+
+        /* الأرقام المزخرفة المضيئة للساعة والمؤقت */
+        .digital-number {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.1rem;
+            font-weight: 900;
+            color: #ffe67b;
+            text-shadow: 0 0 12px #ffaa00, 0 0 25px #ff5500;
+            letter-spacing: 2px;
+            direction: ltr;
+            margin: 10px 0;
+        }
+
+        /* أدوات التحكم بالتايمر والترجمة */
+        .timer-controls, .trans-controls {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            align-items: center;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        .timer-controls input, select {
+            padding: 8px;
+            background: rgba(2, 9, 23, 0.9);
+            border: 1px solid #ffaa00;
+            border-radius: 8px;
+            color: #ffe67b;
+            font-family: 'Cairo', sans-serif;
+            font-size: 0.9rem;
+            outline: none;
+        }
+
+        .btn-small {
+            background: linear-gradient(45deg, #ff9900, #ffe67b);
+            color: #030b1e;
+            border: none;
+            padding: 8px 14px;
+            font-size: 0.9rem;
+            font-weight: 900;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-small:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 12px rgba(255, 230, 123, 0.8);
+        }
+
+        .btn-danger {
+            background: linear-gradient(45deg, #ff3333, #ff6666);
+            color: #fff;
+        }
+
+        /* تنسيقات قسم الترجمة */
+        .trans-textarea {
+            width: 100%;
+            height: 70px;
+            background: rgba(2, 9, 23, 0.8);
+            border: 1px solid #ffaa00;
+            border-radius: 10px;
+            color: #fff;
+            padding: 10px;
+            font-family: 'Cairo', sans-serif;
+            font-size: 0.9rem;
+            resize: none;
+            outline: none;
+            margin-bottom: 6px;
+        }
+
+        /* قسم رفع وتخزين الملفات والصور */
+        .file-section {
+            width: 100%;
+            max-width: 950px;
+            background: rgba(4, 20, 48, 0.88);
+            border: 2px solid #ffaa00;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(6px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            text-align: center;
+        }
+
+        .file-preview {
+            width: 100%;
+            max-height: 400px;
+            margin-top: 15px;
+            border-radius: 12px;
+            border: 1px dashed #ffaa00;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            background: rgba(2, 9, 23, 0.6);
+        }
+
+        .file-preview img {
+            max-width: 100%;
+            max-height: 380px;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+
+        .file-preview iframe {
+            width: 100%;
+            height: 380px;
+            border: none;
+        }
+
+        /* حاوية إدخال المهام */
+        .input-section {
+            width: 100%;
+            max-width: 950px;
+            background: rgba(4, 20, 48, 0.88);
+            border: 2px solid #ffaa00;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(6px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+        }
+
+        .input-section h2 {
+            margin-top: 0;
+            color: #ffe67b;
+            font-size: 1.2rem;
+        }
+
+        textarea {
+            width: 100%;
+            height: 130px;
+            background: rgba(2, 9, 23, 0.8);
+            border: 1px solid #ffaa00;
+            border-radius: 12px;
+            color: #fff;
+            padding: 15px;
+            font-family: 'Cairo', sans-serif;
+            font-size: 0.95rem;
+            resize: vertical;
+            outline: none;
+        }
+
+        .buttons-container {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn-action {
+            background: linear-gradient(45deg, #ff9900, #ffe67b);
+            color: #030b1e;
+            border: none;
+            padding: 12px 20px;
+            font-size: 1rem;
+            font-weight: 900;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(255, 170, 0, 0.4);
+            flex: 1;
+            min-width: 180px;
+        }
+
+        .btn-action:hover {
+            transform: scale(1.03);
+            box-shadow: 0 0 25px rgba(255, 230, 123, 0.8);
+        }
+
+        .btn-clear {
+            background: linear-gradient(45deg, #ff3333, #ff6666);
+            color: #fff;
+            box-shadow: 0 0 15px rgba(255, 51, 51, 0.4);
+        }
+
+        /* شبكة عرض الكروت */
+        .tasks-grid {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 25px;
+            justify-content: center;
+        }
+
+        /* تصميم كرت اليوم */
+        .task-card {
+            background: linear-gradient(135deg, rgba(4, 20, 48, 0.88), rgba(8, 30, 68, 0.82));
+            border: 2px solid #ffaa00;
+            border-radius: 24px;
+            padding: 22px;
+            width: 320px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5), 0 0 15px rgba(255, 170, 0, 0.25);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            backdrop-filter: blur(6px);
+        }
+
+        .task-card::before { content: '✨'; position: absolute; top: 10px; left: 12px; opacity: 0.8; }
+        .task-card::after { content: '🌙'; position: absolute; bottom: 10px; left: 12px; opacity: 0.6; }
+
+        .task-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7), 0 0 30px rgba(255, 204, 0, 0.6);
+            border-color: #ffe67b;
+        }
+
+        .task-card h3 {
+            color: #ffe67b;
+            border-bottom: 2px dashed rgba(255, 230, 123, 0.3);
+            padding-bottom: 12px;
+            margin-top: 0;
+            font-size: 1.2rem;
+            text-shadow: 0 0 8px rgba(255, 170, 0, 0.8);
+        }
+
+        .task-list {
+            list-style: none;
+            padding: 0;
+            margin: 10px 0 0 0;
+            line-height: 1.8;
+        }
+
+        .task-list li {
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #e2f1ff;
+            word-break: break-word;
+        }
+
+        /* غطاء الإنجاز والصح المضيء */
+        .checkmark-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(3, 15, 38, 0.93);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s ease;
+            z-index: 10;
+            border-radius: 22px;
+        }
+
+        .task-card.completed .checkmark-overlay {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .checkmark {
+            font-size: 100px;
+            color: #ffe67b;
+            text-shadow: 0 0 20px #ffaa00, 0 0 40px #ffaa00;
+            transform: scale(0) rotate(-45deg);
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .task-card.completed .checkmark {
+            transform: scale(1) rotate(0deg);
+        }
+
+        .completed-text {
+            color: #ffe67b;
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-top: -10px;
+            text-shadow: 0 0 10px #ffaa00;
+        }
+
+        .particle {
+            position: absolute;
+            pointer-events: none;
+            background: #ffe67b;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #ffaa00;
+            animation: particleAnimation 0.8s forwards ease-out;
+        }
+
+        @keyframes particleAnimation {
+            0% { opacity: 1; transform: translate(0, 0) scale(1); }
+            100% { opacity: 0; transform: translate(var(--x), var(--y)) scale(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <h1 class="main-title">🌌 منظم المهام الذكي - ليلة النجوم 🌌</h1>
+
+    <!-- 1. قسم الساعة والمؤقت -->
+    <div class="widgets-container">
+        <div class="widget-box">
+            <div class="widget-title">🕒 الساعة الآن</div>
+            <div class="digital-number" id="clockDisplay">00:00:00</div>
+        </div>
+
+        <div class="widget-box">
+            <div class="widget-title">⏳ المؤقت (التايمر)</div>
+            <div class="digital-number" id="timerDisplay">00:00</div>
+            <div class="timer-controls">
+                <input type="number" id="timerMinutes" placeholder="دقائق" min="1" value="25" style="width:70px;">
+                <button class="btn-small" onclick="startTimer()">▶ ابدأ</button>
+                <button class="btn-small btn-danger" onclick="pauseTimer()">⏸ إيقاف</button>
+                <button class="btn-small" style="background:#aaa;" onclick="resetTimer()">🔄 إعادة</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. قسم الترجمة الفورية -->
+    <div class="widgets-container">
+        <div class="widget-box" style="text-align: right;">
+            <div class="widget-title" style="text-align: center;">🌐 الترجمة الفورية</div>
+            <textarea class="trans-textarea" id="transInput" placeholder="اكتب النص المراد ترجمته هنا..."></textarea>
+            <textarea class="trans-textarea" id="transOutput" placeholder="الترجمة ستظهر هنا..." readonly></textarea>
+            
+            <div class="trans-controls">
+                <select id="transDirection">
+                    <option value="ar|en">من عربي إلى إنجليزي 🇦🇪 ➔ 🇬🇧</option>
+                    <option value="en|ar">من إنجليزي إلى عربي 🇬🇧 ➔ 🇦🇪</option>
+                </select>
+                <button class="btn-small" onclick="translateText()">🌐 ترجم الآن</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. قسم ملفات ومستندات المذاكرة (PDF / صور) -->
+    <div class="file-section">
+        <div class="widget-title">📑 ملحقات المذاكرة والملفات (PDF / صور)</div>
+        <input type="file" id="fileInput" accept="image/*,.pdf" style="display: none;" onchange="handleFileUpload(event)">
+        
+        <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+            <button class="btn-small" onclick="document.getElementById('fileInput').click()">📤 رفع ملف PDF أو صورة</button>
+            <button class="btn-small btn-danger" onclick="deleteSavedFile()">🗑️ حذف الملف المحفوظ</button>
+        </div>
+
+        <div class="file-preview" id="filePreviewContainer">
+            <span style="color: #aaa; font-size: 0.9rem;">لا يوجد ملف أو صورة محددة حتى الآن</span>
+        </div>
+    </div>
+
+    <!-- 4. قسم إدخال المهام -->
+    <div class="input-section">
+        <h2>ضع نص المهام الكامل هنا:</h2>
+        <textarea id="rawTaskText" placeholder="الصح واللصق للمهام بالكامل هنا..."></textarea>
+        
+        <div class="buttons-container">
+            <button class="btn-action" onclick="generateSchedule(true)">✨ حفظ وترتيب الجدول ✨</button>
+            <button class="btn-action btn-clear" onclick="clearAll()">🗑️ مسح جميع المهام</button>
+        </div>
+    </div>
+
+    <!-- 5. شبكة عرض المهام المرتبة -->
+    <div class="tasks-grid" id="tasksContainer"></div>
+
+    <script>
+        // ==================== 1. الساعة الحية ====================
+        function updateClock() {
+            const now = new Date();
+            let hours = now.getHours();
+            let minutes = now.getMinutes();
+            let seconds = now.getSeconds();
+
+            let ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12;
+            hours = hours ? hours : 12;
+
+            hours = hours < 10 ? '0' + hours : hours;
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            seconds = seconds < 10 ? '0' + seconds : seconds;
+
+            document.getElementById('clockDisplay').innerText = `${hours}:${minutes}:${seconds} ${ampm}`;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // ==================== 2. المؤقت والتنبيه ====================
+        let timerInterval = null;
+        let timerSecondsLeft = 0;
+
+        function startTimer() {
+            if (timerInterval) return;
+
+            if (timerSecondsLeft === 0) {
+                const mins = parseInt(document.getElementById('timerMinutes').value);
+                if (isNaN(mins) || mins <= 0) {
+                    alert('من فضلك أدخل عدد دقائق صحيح!');
+                    return;
+                }
+                timerSecondsLeft = mins * 60;
+            }
+
+            updateTimerDisplay();
+
+            timerInterval = setInterval(() => {
+                timerSecondsLeft--;
+                updateTimerDisplay();
+
+                if (timerSecondsLeft <= 0) {
+                    clearInterval(timerInterval);
+                    timerInterval = null;
+                    playAlarmSound();
+                    setTimeout(() => {
+                        alert('🔔 انتهى وقت المؤقت بنجاح!');
+                    }, 200);
+                }
+            }, 1000);
+        }
+
+        function pauseTimer() {
+            clearInterval(timerInterval);
+            timerInterval = null;
+        }
+
+        function resetTimer() {
+            pauseTimer();
+            timerSecondsLeft = 0;
+            document.getElementById('timerDisplay').innerText = "00:00";
+        }
+
+        function updateTimerDisplay() {
+            let m = Math.floor(timerSecondsLeft / 60);
+            let s = timerSecondsLeft % 60;
+            m = m < 10 ? '0' + m : m;
+            s = s < 10 ? '0' + s : s;
+            document.getElementById('timerDisplay').innerText = `${m}:${s}`;
+        }
+
+        function playAlarmSound() {
+            try {
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const now = audioCtx.currentTime;
+                const freqs = [523.25, 659.25, 783.99, 1046.50];
+                
+                freqs.forEach((freq, idx) => {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.value = freq;
+                    gain.gain.setValueAtTime(0.3, now + idx * 0.15);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.15 + 0.4);
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start(now + idx * 0.15);
+                    osc.stop(now + idx * 0.15 + 0.4);
+                });
+            } catch(e) {}
+        }
+
+        // ==================== 3. قسم الترجمة ====================
+        async function translateText() {
+            const input = document.getElementById('transInput').value.trim();
+            const langpair = document.getElementById('transDirection').value;
+            const output = document.getElementById('transOutput');
+
+            if (!input) {
+                alert('يرجى كتابة نص للترجمة أولاً!');
+                return;
+            }
+
+            output.value = "جاري الترجمة... ⏳";
+
+            try {
+                const response = await fetch(`[https://api.mymemory.translated.net/get?q=$](https://api.mymemory.translated.net/get?q=$){encodeURIComponent(input)}&langpair=${langpair}`);
+                const data = await response.json();
+                
+                if (data && data.responseData) {
+                    output.value = data.responseData.translatedText;
+                } else {
+                    output.value = "عذراً، تعذرت الترجمة. حاول لاحقاً.";
+                }
+            } catch (err) {
+                output.value = "خطأ في الاتصال بشبكة الإنترنت.";
+            }
+        }
+
+        // ==================== 4. حفظ وتخزين الملفات والصور (IndexedDB) ====================
+        let db;
+        const request = indexedDB.open("StarryPlannerDB", 1);
+
+        request.onupgradeneeded = (e) => {
+            db = e.target.result;
+            if (!db.objectStoreNames.contains("files")) {
+                db.createObjectStore("files", { keyPath: "id" });
+            }
+        };
+
+        request.onsuccess = (e) => {
+            db = e.target.result;
+            loadSavedFile();
+        };
+
         function handleFileUpload(event) {
             const file = event.target.files[0];
             if (!file) return;
 
-            document.getElementById('filePreviewContainer').innerHTML = '<span style="color: #ffe67b;">جاري الرفع... ⏳</span>';
-
-            if (isCloudEnabled) {
-                // رفع سحابي (يسمع في التابلت)
-                storageRef.put(file).then(snapshot => {
-                    return snapshot.ref.getDownloadURL();
-                }).then(url => {
-                    dbRef.set({ name: file.name, type: file.type, url: url });
-                });
-            } else {
-                // رفع محلي (على نفس الجهاز) إذا لم يتم ربط Firebase
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    localStorage.setItem('local_study_file', JSON.stringify({
-                        name: file.name, type: file.type, url: e.target.result
-                    }));
-                    displayFile(e.target.result, file.type, file.name);
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const fileData = {
+                    id: "saved_study_file",
+                    type: file.type,
+                    name: file.name,
+                    data: e.target.result
                 };
-                reader.readAsDataURL(file);
-            }
+
+                const tx = db.transaction("files", "readwrite");
+                const store = tx.objectStore("files");
+                store.put(fileData);
+
+                tx.oncomplete = () => {
+                    displayFile(fileData);
+                };
+            };
+            reader.readAsDataURL(file);
         }
 
-        function displayFile(url, type, name) {
+        function loadSavedFile() {
+            if (!db) return;
+            const tx = db.transaction("files", "readonly");
+            const store = tx.objectStore("files");
+            const getReq = store.get("saved_study_file");
+
+            getReq.onsuccess = () => {
+                if (getReq.result) {
+                    displayFile(getReq.result);
+                }
+            };
+        }
+
+        function displayFile(fileObj) {
             const container = document.getElementById('filePreviewContainer');
             container.innerHTML = '';
 
-            if (type.startsWith('image/')) {
-                container.innerHTML = `<img src="${url}" alt="${name}">`;
-            } else if (type === 'application/pdf') {
-                container.innerHTML = `<iframe src="${url}"></iframe>`;
+            if (fileObj.type.startsWith('image/')) {
+                const img = document.createElement('img');
+                img.src = fileObj.data;
+                container.appendChild(img);
+            } else if (fileObj.type === 'application/pdf') {
+                const iframe = document.createElement('iframe');
+                iframe.src = fileObj.data;
+                container.appendChild(iframe);
             } else {
-                container.innerHTML = `<span style="color:#ffe67b">تم حفظ: ${name}</span>`;
+                container.innerHTML = `<span style="color:#ffe67b">تم حفظ الملف: ${fileObj.name}</span>`;
             }
         }
 
-        function deleteFile() {
-            if (isCloudEnabled) {
-                dbRef.remove();
-                storageRef.delete().catch(() => {});
-            } else {
-                localStorage.removeItem('local_study_file');
-                document.getElementById('filePreviewContainer').innerHTML = '<span style="color: #aaa;">لا يوجد ملف محفوظ</span>';
+        function deleteSavedFile() {
+            if (!db) return;
+            if (confirm('هل تريد حذف الملف/الصورة المحفوظة؟')) {
+                const tx = db.transaction("files", "readwrite");
+                const store = tx.objectStore("files");
+                store.delete("saved_study_file");
+
+                tx.oncomplete = () => {
+                    document.getElementById('filePreviewContainer').innerHTML = '<span style="color: #aaa; font-size: 0.9rem;">لا يوجد ملف أو صورة محددة حتى الآن</span>';
+                };
             }
         }
 
-        // استرجاع الملف المحلي عند فتح الصفحة (لو مفيش سحابة)
-        if (!isCloudEnabled) {
-            const savedData = localStorage.getItem('local_study_file');
-            if (savedData) {
-                const data = JSON.parse(savedData);
-                displayFile(data.url, data.type, data.name);
+        // ==================== 5. ترتيب المهام والتخزين المحلي ====================
+        window.onload = () => {
+            const savedText = localStorage.getItem('savedTasksText');
+            if (savedText) {
+                document.getElementById('rawTaskText').value = savedText;
+                generateSchedule(false);
+            }
+        };
+
+        function generateSchedule(isManualClick) {
+            const rawText = document.getElementById('rawTaskText').value.trim();
+            const container = document.getElementById('tasksContainer');
+            container.innerHTML = '';
+
+            if (!rawText) {
+                if (isManualClick) alert('الرجاء إدخال نص المهام أولاً!');
+                return;
+            }
+
+            localStorage.setItem('savedTasksText', rawText);
+
+            const lines = rawText.split('\n');
+            let currentCard = null;
+            let cardsData = [];
+
+            lines.forEach(line => {
+                let trimmed = line.trim();
+                if (!trimmed) return;
+
+                const isSubTask = /^([👨🏻‍💻📚🚀⚡]|\s*-(?!\s))/i.test(trimmed) || 
+                                  trimmed.startsWith('الجديد:') || 
+                                  trimmed.startsWith('التراكمات:') || 
+                                  trimmed.startsWith('التطوير:') || 
+                                  trimmed.startsWith('المراجعة السريعة:');
+
+                if (!isSubTask) {
+                    if (currentCard) cardsData.push(currentCard);
+                    currentCard = { title: trimmed, items: [] };
+                } else {
+                    if (!currentCard) {
+                        currentCard = { title: '📅 جدول المهام', items: [] };
+                    }
+                    currentCard.items.push(trimmed);
+                }
+            });
+
+            if (currentCard) cardsData.push(currentCard);
+
+            let completedCards = JSON.parse(localStorage.getItem('completedCards')) || [];
+
+            cardsData.forEach(card => {
+                const cardDiv = document.createElement('div');
+                cardDiv.className = 'task-card';
+                cardDiv.dataset.title = card.title;
+
+                if (completedCards.includes(card.title)) {
+                    cardDiv.classList.add('completed');
+                }
+
+                cardDiv.onclick = (e) => toggleComplete(cardDiv, e);
+
+                let itemsHTML = card.items.map(item => `<li>${item}</li>`).join('');
+
+                cardDiv.innerHTML = `
+                    <div class="checkmark-overlay">
+                        <div class="checkmark">✔</div>
+                        <div class="completed-text">تم الإنجاز بنجاح! ✨</div>
+                    </div>
+                    <h3>${card.title}</h3>
+                    <ul class="task-list">
+                        ${itemsHTML}
+                    </ul>
+                `;
+
+                container.appendChild(cardDiv);
+            });
+        }
+
+        function toggleComplete(card, event) {
+            card.classList.toggle('completed');
+            
+            let completedCards = JSON.parse(localStorage.getItem('completedCards')) || [];
+            const cardTitle = card.dataset.title;
+
+            if (card.classList.contains('completed')) {
+                if (!completedCards.includes(cardTitle)) {
+                    completedCards.push(cardTitle);
+                }
+
+                let rect = card.getBoundingClientRect();
+                for (let i = 0; i < 12; i++) {
+                    createParticle(event.clientX - rect.left, event.clientY - rect.top, card);
+                }
+            } else {
+                completedCards = completedCards.filter(title => title !== cardTitle);
+            }
+
+            localStorage.setItem('completedCards', JSON.stringify(completedCards));
+        }
+
+        function createParticle(x, y, parent) {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            
+            let size = Math.random() * 8 + 4;
+            particle.style.width = size + 'px';
+            particle.style.height = size + 'px';
+            particle.style.left = x + 'px';
+            particle.style.top = y + 'px';
+            
+            let destinationX = (Math.random() - 0.5) * 180;
+            let destinationY = (Math.random() - 0.5) * 180;
+            
+            particle.style.setProperty('--x', destinationX + 'px');
+            particle.style.setProperty('--y', destinationY + 'px');
+            
+            parent.appendChild(particle);
+            setTimeout(() => particle.remove(), 800);
+        }
+
+        function clearAll() {
+            if (confirm('هل أنت متأكد أنك تريد مسح جميع المهام؟')) {
+                localStorage.removeItem('savedTasksText');
+                localStorage.removeItem('completedCards');
+                document.getElementById('rawTaskText').value = '';
+                document.getElementById('tasksContainer').innerHTML = '';
             }
         }
     </script>
