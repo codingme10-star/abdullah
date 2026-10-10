@@ -297,7 +297,7 @@
 
     <!-- قسم الساعة والمؤقت -->
     <div class="widgets-container">
-        <!-- مربع الساعة (تم طرح ساعة لتصحيح التوقيت) -->
+        <!-- مربع الساعة -->
         <div class="widget-box">
             <div class="widget-title">🕒 الساعة الآن</div>
             <div class="digital-number" id="clockDisplay">00:00:00</div>
@@ -382,10 +382,10 @@
             }
         ];
 
-        // 1. برمجة الساعة الحية (تم طرح ساعة لتصحيح التوقيت المتقدم)
+        // 1. برمجة الساعة الحية (تم ضبطها بحيث تعرض الوقت الصحيح بعد إلغاء الفارق الزمني)
         function updateClock() {
             const now = new Date();
-            now.setHours(now.getHours() - 1); // تأخير الساعة ساعة كاملة بناءً على طلبك
+            now.setHours(now.getHours() + 1); // تعديل الساعة (إذا كانت متقدمة ساعة، تم ضبطها للرجوع بالوضع الطبيعي)
 
             let hours = now.getHours();
             let minutes = now.getMinutes();
@@ -401,7 +401,6 @@
 
             document.getElementById('clockDisplay').innerText = `${hours}:${minutes}:${seconds} ${ampm}`;
 
-            // التحقق من موعد التصفير الأسبوعي (يوم الجمعة الساعة 12 منتصف الليل)
             checkWeeklyReset(now);
         }
         setInterval(updateClock, 1000);
@@ -413,7 +412,6 @@
             const hours = currentTime.getHours();
             const minutes = currentTime.getMinutes();
 
-            // إذا كان اليوم جمعة والساعة 12:00 منتصف الليل تماماً
             if (dayOfWeek === 5 && hours === 0 && minutes === 0) {
                 const lastResetWeek = localStorage.getItem('lastResetWeek');
                 const todayDateString = currentTime.toDateString();
@@ -421,7 +419,7 @@
                 if (lastResetWeek !== todayDateString) {
                     localStorage.removeItem('starryScheduleProgress');
                     localStorage.setItem('lastResetWeek', todayDateString);
-                    location.reload(); // إعادة تحميل الصفحة لبدء الأسبوع الجديد بنظافة
+                    location.reload();
                 }
             }
         }
@@ -567,6 +565,7 @@
         function saveProgress() {
             let savedState = {};
             scheduleData.forEach((dayObj, dayIndex) => {
+                dayObj.tasks.format?.();
                 dayObj.tasks.forEach((_, taskIndex) => {
                     const chk = document.getElementById(`task-${dayIndex}-${taskIndex}`);
                     savedState[`task-${dayIndex}-${taskIndex}`] = chk.checked;
